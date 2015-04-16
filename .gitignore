@@ -1,0 +1,5 @@
+Vagrantfile
+.vagrant
+centos_setup.sh
+*.sublime-*
+*.pyc
