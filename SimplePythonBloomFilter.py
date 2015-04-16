@@ -41,7 +41,7 @@ class BloomFilter( object ):
 	__bitarray_size = 0	# The total number of bits in the bitarray
 	__bitarray = None	# The actual bitarray object
 	__hash_count = 0	# The number of times a given element is hashed and entered into the bitarray
-	__hashfn = None		# The swappable hash function that follows the signature hashfn(element, seed)
+	__hashfn = None		# The function that has signature hashfn(element, seed) and returns a long
 
 	def __init__( self, capacity, error_rate = 0.001, hashfn = None ):
 		# Constructor
@@ -97,7 +97,8 @@ class BloomFilter( object ):
 	def default_hashfn():
 		"""Creates and returns a reference to a hashfn that meets the necessary signature and is
 		based on the haslib.md5() hash function. It is HIGHLY desireable to provide a different
-		hash function such as one based on Murmur3 or City. See the 3rd party module PyHash."""
+		hash function such as one based on Murmur3 or City. See the 3rd party module PyHash.
+		Any hash function supplied in place of this must return a value of type long."""
 		def hashfn( element, seed ):
 			m = md5()
 			m.update( str( element ) + str( seed ) )
