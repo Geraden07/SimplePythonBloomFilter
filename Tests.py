@@ -1,8 +1,37 @@
 #!/usr/bin/python
 import unittest
+import string
+import random
 from SimplePythonBloomFilter import BloomFilter
 
 class TestBloomFilter(unittest.TestCase):
+	def test_basic_use_case( self ):
+		"""Creates, adds and tests a BloomFilter."""
+		self.__bloom_helper( 3, 0.001 )
+		self.__bloom_helper( 5, 0.001 )
+		self.__bloom_helper( 30, 0.001 )
+		self.__bloom_helper( 50, 0.001 )
+		self.__bloom_helper( 300, 0.001 )
+		self.__bloom_helper( 500, 0.001 )
+		self.__bloom_helper( 3000, 0.001 )
+		self.__bloom_helper( 5000, 0.001 )
+
+	def __bloom_helper(self, capacity, error_rate):
+		# Helper function that initializes a filter, adds randomly generated elements
+		# and asserts they are found in the filter. Also checks that the calculated
+		# false positive rate returned by the filter (after rounding) matches the rate
+		# used to initialize it.
+		bfilter = BloomFilter( capacity, error_rate )
+		for _ in range( capacity ):
+			rstring = ''.join( random.choice( string.printable ) for _ in range( 10 ) )
+			bfilter.add( rstring )
+			self.assertTrue( rstring in bfilter )
+		self.assertTrue( bfilter.count() == capacity )
+
+		precision = len( str( error_rate )[2:] )
+		rounded_fp_rate = round( bfilter.fp_rate(), precision )
+		self.assertTrue( rounded_fp_rate == error_rate )
+
 	def test_calculate_space( self ):
 		"""Test math against known values verified by Wolfram Alpha"""
 		space = BloomFilter.calculate_space( 1000, 0.05 )
