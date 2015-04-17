@@ -36,12 +36,12 @@ class BloomFilter( object ):
 		https://www.youtube.com/watch?v=IGwNQfjLTp0&t=5m45s
 	"""
 
-	# Class members
-	__element_count = 0	# Keeps track of number of elements that have been added to the bitarray
-	__bitarray_size = 0	# The total number of bits in the bitarray
-	__bitarray = None	# The actual bitarray object
-	__hash_count = 0	# The number of times a given element is hashed and entered into the bitarray
-	__hashfn = None		# The function that has signature hashfn(element, seed) and returns a long
+	# Instance members
+	# __element_count	# Keeps track of number of elements that have been added to the bitarray
+	# __bitarray_size	# The total number of bits in the bitarray
+	# __bitarray			# The actual bitarray object
+	# __hash_count		# The number of times a given element is hashed and entered into the bitarray
+	# __hashfn			# The function that has signature hashfn(element, seed) and returns a long
 
 	def __init__( self, capacity, error_rate = 0.001, hashfn = None ):
 		# Constructor
