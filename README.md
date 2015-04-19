@@ -1,4 +1,4 @@
-# SimplePythonBloomFilter v0.0.1
+#Simple Python Bloom Filter v0.0.1
 This is a simple implementation of a Bloom filter using Python.
 
 ## Basics About the Data Structure and Theory
