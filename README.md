@@ -36,14 +36,14 @@ Well sometimes searching other data structures can be very poor performance:
 - Data that has a high ratio of misses to hits.
 - Network resources are often very expensive, in terms of response time, for retrieving information.
 
-In all the above cases, it can be a big performance benefit if we can have a data structure that can return in constant time whether a desired element is even present before we make our search call. We won't mind having a small probability of false positives inherient to Bloom filters because then we just end up searching for something that isn't there and returning nothing anyway. By controlling that probability of false positives and keeping it very low, we can ensure nearly all of our search calls that would result in misses are never done.
+In all the above cases, it can be a big performance benefit if we can have a data structure that can return whether a desired element is even present before we make our search call. This look-up operation happens in constant time, scaling by O(1). We won't mind having a small probability of false positives inherient to Bloom filters because then we just end up searching for something that isn't there and returning nothing anyway. By controlling that probability of false positives and keeping it very low, we can ensure nearly all of our search calls that would result in misses are never done.
 
 We are not, however, able to STORE any data in the Bloom filter. The filter only keeps track of IF something has likely been seen before or if it has definitely not been. This allows us to keep the memory footprint of the filter incredibly small. To have a filter that can remember 4 million elements and only return false positives at a rate of 1 in 1000 (or 0.001), the memory required would be just over 7MB.
 
 Comparatively, if we were to attempt to instead STORE 4 million elements each of a mere 1 KB in length, the resulting memory footprint would require 4 GB. This is why Bloom filters can only tell us if something has been seen before, but it cannot return to us the actual object.
 
 ##Performance
-Technically speaking, a Bloom filter is simply a bit array where 1s represent a hit and 0s represent a miss. When an element is added to the filter, it is hashed with different algorithms a certain number of times (determined by some magic math that impacts the false positive probability) and then those hashes are used as different indexes to store 1s.
+Technically speaking, a Bloom filter is simply a bit array where 1s represent a hit and 0s represent a miss. When an element is added to the filter, it is hashed with different algorithms a certain number of times (determined by some magic math that impacts the false positive probability) and then those hashes are used as different indexes to store 1s. 
 
 Cryptographic hash functions, especially modern ones such as BCrypt, are often designed specifically to be slow in order to deter password crackers. Non-cryptographic hash functions, such as Murmur and City, are instead designed to be very quick.
 
